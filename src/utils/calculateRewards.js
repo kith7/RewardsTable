@@ -9,15 +9,11 @@ export default function calculateRewards(customerData) {
     name: customerName,
     email: customerEmail,
     totalRewards: 0,
-    rewardsByMonth: {
-      1: 0,
-      2: 0,
-      3: 0,
-    },
+    rewardsByMonth: {},
   };
 
   customerTransactions.forEach((transaction) => {
-    const transactionAmount = transaction.amount;
+    const transactionAmount = transaction.proceeds;
     let rewards = 0;
 
     if (transactionAmount > 100) {
@@ -26,10 +22,9 @@ export default function calculateRewards(customerData) {
     } else if (transactionAmount >= 50) {
       rewards += transactionAmount - 50;
     }
-
-    rewardsPerCustomer.totalRewards += rewards;
     const transactionMonth = new Date(transaction.date).getMonth() + 1;
-    rewardsPerCustomer.rewardsByMonth[transactionMonth] += rewards;
+    rewardsPerCustomer.rewardsByMonth[transactionMonth] = rewards;
+    rewardsPerCustomer.totalRewards += rewards;
   });
 
   return rewardsPerCustomer;

@@ -1,15 +1,16 @@
 import React from "react";
 
 const TableRow = ({ data }) => {
-  const { name, email } = data;
+  const { name, email, rewardsByMonth, totalRewards } = data;
+  console.log(rewardsByMonth);
   return (
     <tr>
       <td>{name}</td>
       <td>{email}</td>
-      <td>123</td>
-      <td>123</td>
-      <td>2</td>
-      <td>Total</td>
+      <td>{Object.values(rewardsByMonth)[0]}</td>
+      <td>{Object.values(rewardsByMonth)[1]}</td>
+      <td>{Object.values(rewardsByMonth)[2]}</td>
+      <td>{totalRewards}</td>
     </tr>
   );
 };

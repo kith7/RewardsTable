@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import TableRow from "./TableRow";
 import calculateRewards from "../utils/calculateRewards";
-
 const TableClients = () => {
   const [uData, setUData] = useState();
   const { usersData, isPending, hasError } = useFetch("/data/db.json");
   useEffect(() => {
-    setUData(usersData);
-    console.log(uData);
+    if (usersData) {
+      const newData = usersData.map((el) => calculateRewards(el));
+      console.log(newData);
+      setUData(newData);
+    }
   }, [usersData]);
 
   return (
@@ -30,11 +32,11 @@ const TableClients = () => {
             ? uData.map((userItem) => (
                 <TableRow data={userItem} key={userItem.id} />
               ))
-            : ""}
+            : null}
         </tbody>
       </table>
-      {isPending ? <p>Loading data...</p> : ""}
-      {hasError ? `<p>An error occurred: ${hasError.message}</p>` : ""}
+      {isPending ? <p>Loading data...</p> : null}
+      {hasError ? `<p>An error occurred: ${hasError.message}</p>` : null}
     </>
   );
 };
