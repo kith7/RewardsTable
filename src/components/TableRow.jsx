@@ -1,8 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
 const TableRow = ({ data }) => {
   const { name, email, rewardsByMonth, totalRewards } = data;
-  console.log(rewardsByMonth);
   return (
     <tr>
       <td>{name}</td>
@@ -15,4 +14,4 @@ const TableRow = ({ data }) => {
   );
 };
 
-export default TableRow;
+export default memo(TableRow);

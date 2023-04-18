@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import useFetch from "../hooks/useFetch";
 import TableRow from "./TableRow";
 import calculateRewards from "../utils/calculateRewards";
@@ -7,9 +7,8 @@ const TableClients = () => {
   const { usersData, isPending, hasError } = useFetch("/data/db.json");
   useEffect(() => {
     if (usersData) {
-      const newData = usersData.map((el) => calculateRewards(el));
-      console.log(newData);
-      setUData(newData);
+      const rewardsData = usersData.map((el) => calculateRewards(el));
+      setUData(rewardsData);
     }
   }, [usersData]);
 
