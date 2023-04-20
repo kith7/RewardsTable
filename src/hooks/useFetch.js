@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 
 const useFetch = (url) => {
   const [usersData, setUsersData] = useState(null);
-  const [isPending, setIsPending] = useState(true);
+  const [isPending, setIsPending] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!url) return;
+      setIsPending(true);
+      //use setTimeout for debouncing purposes and to simulate data fetching
       setTimeout(() => {
         fetch(url, {
           method: "GET",
@@ -20,6 +23,7 @@ const useFetch = (url) => {
               throw Error(
                 "Something went wrong, could not fetch this resource"
               );
+              setIsPending(false);
             }
             return res.json();
           })
@@ -33,7 +37,7 @@ const useFetch = (url) => {
             setIsPending(false);
             setHasError(err.message);
           });
-      }, 2000);
+      }, 1000);
     };
 
     fetchData();

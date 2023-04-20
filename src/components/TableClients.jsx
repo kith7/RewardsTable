@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import TableRow from "./TableRow";
 import calculateRewards from "../utils/calculateRewards";
+import LoadingSpinner from "./UI/Spinner";
 const TableClients = () => {
   const [uData, setUData] = useState();
   const { usersData, isPending, hasError } = useFetch("/data/db.json");
@@ -14,10 +15,7 @@ const TableClients = () => {
 
   return (
     <>
-      <div>
-        <h1>Clients Table</h1>
-      </div>
-      <table className='table table-striped'>
+      <table className='table table-striped' aria-label='Rewards table'>
         <thead>
           <tr>
             <th>Client's name</th>
@@ -28,13 +26,17 @@ const TableClients = () => {
         </thead>
         <tbody>
           {uData
-            ? uData.map((userItem) => (
-                <TableRow data={userItem} key={userItem.id} />
+            ? uData.map((userItem, indx) => (
+                <TableRow
+                  data={userItem}
+                  key={userItem.id}
+                  data-testid={`tableRows-${indx}`}
+                />
               ))
             : null}
         </tbody>
       </table>
-      {isPending ? <p>Loading data...</p> : null}
+      {isPending ? <LoadingSpinner data-testid='loading' /> : null}
       {hasError ? `<p>An error occurred: ${hasError.message}</p>` : null}
     </>
   );
